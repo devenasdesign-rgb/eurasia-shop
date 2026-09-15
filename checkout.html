@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Checkout — EURASIA</title>
+  <meta name="description" content="Checkout at EURASIA.">
+  <meta name="theme-color" content="#424532">
+  <link rel="icon" href="assets/icons/logo-eurasia-wordmark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=20260915b">
+</head>
+<body data-page="checkout">
+  <header id="site-header"></header>
+  <main class="container">
+    <nav class="breadcrumbs" aria-label="Breadcrumbs"><a href="index.html">Home</a><span class="sep">/</span><a href="cart.html">Cart</a><span class="sep">/</span><span aria-current="page">Checkout</span></nav>
+    <div class="page-head"><h1 class="h1">Checkout</h1></div>
+    <div class="checkout">
+      <form class="checkout__form" id="checkout-form" novalidate>
+        <fieldset class="step">
+          <legend class="step__title"><span class="step__num">1</span>Personal information</legend>
+          <div class="fields">
+            <div class="field"><label for="f-first">First name *</label><input class="input" id="f-first" name="first" type="text" required autocomplete="given-name" placeholder="Anna"></div>
+            <div class="field"><label for="f-last">Last name *</label><input class="input" id="f-last" name="last" type="text" required autocomplete="family-name" placeholder="Ivanova"></div>
+            <div class="field field--full"><label for="f-middle">Middle name</label><input class="input" id="f-middle" name="middle" type="text" autocomplete="additional-name" placeholder="Optional"></div>
+            <div class="field"><label for="f-phone">Phone *</label><input class="input" id="f-phone" name="phone" type="tel" required autocomplete="tel" placeholder="+7 (900) 000 00 00"></div>
+            <div class="field"><label for="f-email">Email *</label><input class="input" id="f-email" name="email" type="email" required autocomplete="email" placeholder="name@example.com"></div>
+          </div>
+        </fieldset>
+
+        <fieldset class="step">
+          <legend class="step__title"><span class="step__num">2</span>Delivery address</legend>
+          <div class="fields">
+            <div class="field"><label for="f-city">City or town *</label><input class="input" id="f-city" name="city" type="text" required autocomplete="address-level2" placeholder="St Petersburg"></div>
+            <div class="field"><label for="f-street">Street *</label><input class="input" id="f-street" name="street" type="text" required autocomplete="address-line1" placeholder="Kuznetsova St."></div>
+            <div class="field"><label for="f-building">Building *</label><input class="input" id="f-building" name="building" type="text" required placeholder="33"></div>
+            <div class="field"><label for="f-apt">Apartment</label><input class="input" id="f-apt" name="apartment" type="text" placeholder="Optional"></div>
+          </div>
+        </fieldset>
+
+        <fieldset class="step">
+          <legend class="step__title"><span class="step__num">3</span>Delivery method</legend>
+          <div class="options">
+            <label class="option"><input type="radio" name="delivery" value="courier"><span class="option__card"><span class="option__radio"></span><span class="option__text"><span class="option__name">Courier delivery</span><span class="option__note">Delivery fee — $6. Within 2 business days, up to 100 items per order.</span></span></span></label>
+            <label class="option"><input type="radio" name="delivery" value="pickup"><span class="option__card"><span class="option__radio"></span><span class="option__text"><span class="option__name">Pickup</span><span class="option__note">33 Kuznetsova St., Office 129, St Petersburg</span></span></span></label>
+            <label class="option"><input type="radio" name="delivery" value="post"><span class="option__card"><span class="option__radio"></span><span class="option__text"><span class="option__name">Russian Post delivery</span></span></span></label>
+            <label class="option"><input type="radio" name="delivery" value="boxberry"><span class="option__card"><span class="option__radio"></span><span class="option__text"><span class="option__name">BOXBERRY</span></span></span></label>
+            <label class="option"><input type="radio" name="delivery" value="cdek"><span class="option__card"><span class="option__radio"></span><span class="option__text"><span class="option__name">CDEK delivery</span></span></span></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="step">
+          <legend class="step__title"><span class="step__num">4</span>Payment method</legend>
+          <div class="options">
+            <label class="option"><input type="radio" name="payment" value="card"><span class="option__card"><span class="option__radio"></span><span class="option__text"><span class="option__name">Online card payment</span></span><img class="option__icon" src="assets/icons/cards.svg" alt=""></span></label>
+            <label class="option"><input type="radio" name="payment" value="sbp"><span class="option__card"><span class="option__radio"></span><span class="option__text"><span class="option__name">Faster Payments System</span></span><img class="option__icon option__icon--sbp" src="assets/icons/sbp.svg" alt=""></span></label>
+            <label class="option"><input type="radio" name="payment" value="cod"><span class="option__card"><span class="option__radio"></span><span class="option__text"><span class="option__name">Payment on delivery</span></span><img class="option__icon" src="assets/icons/wallet.svg" alt=""></span></label>
+          </div>
+        </fieldset>
+
+        <div class="checkout__submit">
+          <label class="check"><input type="checkbox" id="consent"><span class="check__box"></span>I confirm that I have read and consent to the processing of my personal data in accordance with the Privacy Policy.</label>
+          <button class="btn btn--block" type="submit">Place order</button>
+          <p class="form-error" id="form-error" role="alert"></p>
+        </div>
+      </form>
+
+      <aside class="checkout__aside">
+        <div class="summary">
+          <h2 class="summary__title">Your order</h2>
+          <div class="order__items" id="order-items"></div>
+          <div class="summary__rows">
+            <div class="summary__row"><span id="o-pcs">Items</span><b id="o-items"></b></div>
+            <div class="summary__row"><span>Discount</span><b id="o-discount"></b></div>
+            <div class="summary__row"><span>Delivery</span><b id="o-delivery"></b></div>
+          </div>
+          <div class="summary__row summary__total"><span>Total</span><b id="o-total"></b></div>
+        </div>
+      </aside>
+    </div>
+  </main>
+  <footer id="site-footer"></footer>
+  <script src="js/data.js?v=20260915b"></script>
+  <script src="js/app.js?v=20260915b"></script>
+</body>
+</html>

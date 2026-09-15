@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>EURASIA — Professional cosmetics store</title>
+  <meta name="description" content="EURASIA — exclusive distributor of professional European cosmetics brands in Russia since 2002.">
+  <meta name="theme-color" content="#424532">
+  <link rel="icon" href="assets/icons/logo-eurasia-wordmark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=20260915b">
+</head>
+<body data-page="home">
+  <header id="site-header"></header>
+  <main>
+    <div class="container">
+      <section class="hero" aria-label="EURASIA">
+        <img class="hero__photo" src="assets/img/hero.jpg" alt="Woman applying a serum with a dropper" fetchpriority="high">
+        <div class="hero__brand">
+          <h1 class="hero__wordmark"><img src="assets/icons/logo-eurasia-wordmark.svg" alt="EURASIA"></h1>
+          <p class="label hero__tag">Professional cosmetics store · Since 2002</p>
+        </div>
+        <div class="hero__bottom">
+          <div class="hero__intro">
+            <p class="hero__lead">Clinical-grade skincare from SkinClinic, Montibello, Tallassoria and Derma 2.0 — the formulas dermatologists use, delivered to your door.</p>
+            <div class="hero__actions">
+              <a class="btn" href="catalog.html">Shop the catalog</a>
+              <a class="btn btn--ghost" href="brands.html">Our brands</a>
+            </div>
+          </div>
+          <article class="hero-card">
+            <a class="hero-card__media" href="product.html?id=ferulast"><img src="assets/img/hero-card.jpg" alt="Ferulast serum photoaging"></a>
+            <div class="hero-card__body">
+              <div>
+                <p class="label">Bestseller · SkinClinic</p>
+                <h2 class="hero-card__title"><a href="product.html?id=ferulast">Ferulast serum photoaging</a></h2>
+              </div>
+              <div class="hero-card__row">
+                <p class="price"><span class="price__now">$79</span></p>
+                <button class="card__add" type="button" data-add="ferulast" aria-label="Add Ferulast serum to cart"><img src="assets/icons/cart-white.svg" alt=""></button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+
+    <section class="container section" aria-labelledby="new-title">
+      <div class="section-head">
+        <div><span class="label">Just in</span><h2 class="h2" id="new-title">New arrivals</h2></div>
+        <a class="link" href="catalog.html">View catalog</a>
+      </div>
+      <div class="grid-products grid-products--row" id="new-grid"></div>
+    </section>
+
+    <section class="container section" aria-labelledby="brands-title">
+      <div class="section-head">
+        <div><span class="label">Exclusive in Russia</span><h2 class="h2" id="brands-title">Brands</h2></div>
+        <a class="link" href="brands.html">All brands</a>
+      </div>
+      <div class="brand-tiles" id="brand-tiles"></div>
+    </section>
+
+    <section class="container section" id="about" aria-labelledby="about-title">
+      <div class="about">
+        <div class="about__text">
+          <div>
+            <p class="label" id="about-title">About us</p>
+            <p class="about__statement">Since 2002, EURASIA has been the exclusive distributor of professional European and American cosmetics brands in Russia, including SkinClinic, Tallassoria, and Montibello—with more to come.</p>
+            <a class="link" href="brands.html">Learn more</a>
+          </div>
+          <dl class="about__facts">
+            <div><dt>2002</dt><dd>Working with professionals since</dd></div>
+            <div><dt>4 brands</dt><dd>In our catalog today</dd></div>
+            <div><dt>Exclusive</dt><dd>Distributor in Russia</dd></div>
+          </dl>
+        </div>
+        <img class="about__photo" src="assets/img/about.jpg" alt="Woman applying SkinClinic cream" loading="lazy">
+      </div>
+    </section>
+
+    <section class="container section" id="offers" aria-labelledby="offers-title">
+      <div class="section-head">
+        <div><span class="label">Limited time</span><h2 class="h2" id="offers-title">Offers</h2></div>
+        <a class="link" href="catalog.html">View catalog</a>
+      </div>
+      <div class="grid-products grid-products--row" id="offers-grid"></div>
+    </section>
+
+    <section class="container section" aria-labelledby="collections-title">
+      <div class="section-head">
+        <div><span class="label">Care by concern</span><h2 class="h2" id="collections-title">Collections</h2></div>
+      </div>
+      <div class="collections" id="collections"></div>
+    </section>
+
+    <section id="subscribe" aria-label="Newsletter"></section>
+  </main>
+  <footer id="site-footer"></footer>
+  <script src="js/data.js?v=20260915b"></script>
+  <script src="js/app.js?v=20260915b"></script>
+</body>
+</html>

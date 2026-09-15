@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Cart — EURASIA</title>
+  <meta name="description" content="Your cart at EURASIA.">
+  <meta name="theme-color" content="#424532">
+  <link rel="icon" href="assets/icons/logo-eurasia-wordmark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=20260915b">
+</head>
+<body data-page="cart">
+  <header id="site-header"></header>
+  <main class="container">
+    <nav class="breadcrumbs" aria-label="Breadcrumbs"><a href="index.html">Home</a><span class="sep">/</span><span aria-current="page">Cart</span></nav>
+    <div class="page-head">
+      <div><p class="label" id="cart-count">&nbsp;</p><h1 class="h1" style="margin-top:10px">Cart</h1></div>
+    </div>
+
+    <div class="empty" id="cart-empty" hidden>
+      <p class="empty__title">Your cart is empty</p>
+      <p>Add products from the catalog and they’ll appear here.</p>
+      <a class="btn" href="catalog.html">Browse catalog</a>
+    </div>
+
+    <div class="cart" id="cart-layout" hidden>
+      <div>
+        <div class="cart__bar">
+          <label class="check check--center"><input type="checkbox" id="select-all"><span class="check__box"></span>Select all</label>
+          <span class="label">Price</span>
+        </div>
+        <div id="cart-list"></div>
+      </div>
+      <aside class="cart__aside">
+        <div class="summary">
+          <h2 class="summary__title">Order summary</h2>
+          <div class="summary__rows">
+            <div class="summary__row"><span id="sum-pcs">Items</span><b id="sum-items"></b></div>
+            <div class="summary__row"><span>Discount</span><b id="sum-discount"></b></div>
+            <div class="summary__row"><span>Promo code</span><b id="sum-rewards"></b></div>
+          </div>
+          <form class="promo" id="promo-form">
+            <label class="label" for="promo">Promo code</label>
+            <div class="promo__field">
+              <input id="promo" type="text" placeholder="Enter code" autocomplete="off">
+              <button type="submit" aria-label="Apply promo code"><img src="assets/icons/arrow-right.svg" alt=""></button>
+            </div>
+            <p class="promo__msg" id="promo-msg" aria-live="polite"></p>
+          </form>
+          <div class="summary__row summary__total"><span>Total</span><b id="sum-total"></b></div>
+          <button class="btn btn--white btn--block" type="button" id="to-checkout">Go to checkout</button>
+        </div>
+      </aside>
+    </div>
+
+    <section class="section" aria-labelledby="recs-title">
+      <div class="section-head"><h2 class="h2" id="recs-title">You may also like</h2><a class="link" href="catalog.html">View catalog</a></div>
+      <div class="grid-products grid-products--row" id="recs-grid"></div>
+    </section>
+  </main>
+  <footer id="site-footer"></footer>
+  <script src="js/data.js?v=20260915b"></script>
+  <script src="js/app.js?v=20260915b"></script>
+</body>
+</html>

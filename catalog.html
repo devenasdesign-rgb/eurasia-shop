@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Catalog — EURASIA</title>
+  <meta name="description" content="Professional cosmetics catalog: SkinClinic, Montibello, Tallassoria, Derma 2.0.">
+  <meta name="theme-color" content="#424532">
+  <link rel="icon" href="assets/icons/logo-eurasia-wordmark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=20260915b">
+</head>
+<body data-page="catalog">
+  <header id="site-header"></header>
+  <main class="container">
+    <nav class="breadcrumbs" aria-label="Breadcrumbs"><a href="index.html">Home</a><span class="sep">/</span><span aria-current="page" id="catalog-crumb">Catalog</span></nav>
+    <div class="page-head">
+      <div>
+        <p class="label" id="catalog-count" aria-live="polite">&nbsp;</p>
+        <h1 class="h1" id="catalog-title" style="margin-top:10px">Catalog</h1>
+      </div>
+      <div class="page-head__meta">
+        <button class="btn btn--ghost catalog__filters-btn" type="button" id="filters-open"><img src="assets/icons/filters.svg" alt="">Filters</button>
+        <label class="select">
+          <span class="sr-only">Sort by</span>
+          <select id="sort">
+            <option value="">Featured</option>
+            <option value="price-asc">Price: low to high</option>
+            <option value="price-desc">Price: high to low</option>
+            <option value="name">Name: A–Z</option>
+          </select>
+          <img src="assets/icons/caret.svg" alt="">
+        </label>
+      </div>
+    </div>
+
+    <div class="catalog">
+      <aside class="filters-panel" aria-label="Filters">
+        <form class="filters" id="filters">
+          <div class="filters__top">
+            <span class="drawer__title" style="font-size:24px">Filters</span>
+            <button class="close-btn" type="button" id="filters-x" aria-label="Close filters"><img src="assets/icons/close-plus.svg" alt=""></button>
+          </div>
+          <div class="filters__scroll">
+            <div class="filters__group">
+              <button class="filters__head" type="button" aria-expanded="true" aria-controls="f-brands">Brand<img src="assets/icons/caret-menu.svg" alt=""></button>
+              <div class="filters__list" id="f-brands"></div>
+            </div>
+            <div class="filters__group">
+              <button class="filters__head" type="button" aria-expanded="true" aria-controls="f-cats">Category<img src="assets/icons/caret-menu.svg" alt=""></button>
+              <div class="filters__list" id="f-cats"></div>
+            </div>
+            <div class="filters__group">
+              <button class="filters__head" type="button" aria-expanded="false" aria-controls="f-price">Price<img src="assets/icons/caret-menu.svg" alt=""></button>
+              <div class="filters__list" id="f-price" hidden>
+                <div class="filters__price">
+                  <input class="input" type="number" id="price-min" min="0" placeholder="From $" aria-label="Price from">
+                  <input class="input" type="number" id="price-max" min="0" placeholder="To $" aria-label="Price to">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="filters__actions">
+            <button class="filters__clear" type="button" id="filters-clear">Reset filters</button>
+            <button class="btn filters__apply" type="submit" id="filters-apply">Show products</button>
+          </div>
+        </form>
+      </aside>
+      <div class="grid-products catalog__grid" id="catalog-grid"></div>
+    </div>
+  </main>
+  <footer id="site-footer"></footer>
+  <script src="js/data.js?v=20260915b"></script>
+  <script src="js/app.js?v=20260915b"></script>
+</body>
+</html>
