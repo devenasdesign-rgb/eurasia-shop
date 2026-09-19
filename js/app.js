@@ -200,7 +200,7 @@
             <a href="#">Consent to Data Processing</a>
             <a href="#">Public Offer Agreement</a>
           </div>
-          <p>Концепт-дизайн DEVENAS design, 2026. Не является действующим магазином.</p>
+          <p>Концепт-дизайн <a class="dev-link" href="https://devenasdesign.com/" target="_blank" rel="noopener">DEVENAS design</a>, 2026. Не является действующим магазином.</p>
         </div>
       </div>`;
   }
@@ -358,12 +358,14 @@
   // Add a real contact to show a "Discuss adaptation" button, e.g.
   // { label: 'Написать в Telegram', href: 'https://t.me/...' }
   const CONCEPT_CONTACT = null;
+  const PORTFOLIO_URL = 'https://devenasdesign.com/';
+  const devLink = `<a class="dev-link" href="${PORTFOLIO_URL}" target="_blank" rel="noopener">DEVENAS design</a>`;
 
   function mountConcept() {
     const bar = document.createElement('div');
     bar.className = 'concept-bar';
     bar.innerHTML = `
-      <p><span class="concept-bar__tag">Концепт</span><span class="concept-bar__text">Дизайн-концепция DEVENAS design. Сайт не является действующим магазином.</span></p>
+      <p><span class="concept-bar__tag">Концепт</span><span class="concept-bar__text">Дизайн-концепция ${devLink}. Сайт не является действующим магазином.</span></p>
       <button class="concept-bar__more" type="button" data-open="concept">Подробнее</button>`;
     document.body.prepend(bar);
 
@@ -372,9 +374,9 @@
     overlay.innerHTML = `
       <div class="modal modal--concept" role="dialog" aria-modal="true" aria-labelledby="concept-title">
         <button class="close-btn modal__close" type="button" data-close="concept" aria-label="Закрыть"><img src="${ICON}close-dark2.svg" alt=""></button>
-        <p class="label concept__tag">Концепт · DEVENAS design</p>
+        <p class="label concept__tag">Концепт · ${devLink}</p>
         <h2 class="h2 modal__title" id="concept-title">Это концепция, а не рабочий магазин</h2>
-        <p class="modal__text">Сайт EURASIA — дизайн-концепция, которую разработал <strong>DEVENAS design</strong> для своего портфолио. Он создан, чтобы наглядно показать, как выглядит и работает интернет-магазин.</p>
+        <p class="modal__text">Сайт EURASIA — дизайн-концепция, которую разработал <strong>${devLink}</strong> для своего портфолио. Он создан, чтобы наглядно показать, как выглядит и работает интернет-магазин.</p>
         <ul class="concept__list">
           <li>Товары, цены и акции — демонстрационные.</li>
           <li>Корзина и оформление заказа работают только для примера: заказы никуда не отправляются.</li>
@@ -385,7 +387,7 @@
           <button class="btn" type="button" data-close="concept">Смотреть концепт</button>
           ${CONCEPT_CONTACT ? `<a class="btn btn--ghost" href="${CONCEPT_CONTACT.href}" target="_blank" rel="noopener">${esc(CONCEPT_CONTACT.label)}</a>` : ''}
         </div>
-        <p class="concept__en">Design concept by DEVENAS design, made for a portfolio. Not a working store: products are demo content and no orders are processed. Like this design? We can adapt it to your niche.</p>
+        <p class="concept__en">Design concept by ${devLink}, made for a portfolio. Not a working store: products are demo content and no orders are processed. Like this design? We can adapt it to your niche.</p>
       </div>`;
     document.body.append(overlay);
     overlay.addEventListener('click', (e) => { if (e.target === overlay) closeLayer('concept'); });
