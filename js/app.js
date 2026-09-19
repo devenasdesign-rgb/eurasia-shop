@@ -200,7 +200,7 @@
             <a href="#">Consent to Data Processing</a>
             <a href="#">Public Offer Agreement</a>
           </div>
-          <p>Концепт-дизайн <a class="dev-link" href="https://devenasdesign.com/" target="_blank" rel="noopener">DEVENAS design</a>, 2026. Не является действующим магазином.</p>
+          <p data-c-footer></p>
         </div>
       </div>`;
   }
@@ -353,45 +353,130 @@
     layers.thanks = { overlay, panel: null };
   }
 
-  /* ---------------- Concept notice ---------------- */
+  /* ---------------- Concept notice (RU / EN) ---------------- */
 
-  // Add a real contact to show a "Discuss adaptation" button, e.g.
-  // { label: 'Написать в Telegram', href: 'https://t.me/...' }
+  // Add a real contact to show an "Discuss adaptation" button, e.g.
+  // { ru: 'Написать в Telegram', en: 'Message on Telegram', href: 'https://t.me/...' }
   const CONCEPT_CONTACT = null;
   const PORTFOLIO_URL = 'https://devenasdesign.com/';
   const devLink = `<a class="dev-link" href="${PORTFOLIO_URL}" target="_blank" rel="noopener">DEVENAS design</a>`;
+
+  const CONCEPT_TEXT = {
+    ru: {
+      lang: 'ru',
+      tag: 'Концепт',
+      bar: `Дизайн-концепция ${devLink}. Сайт не является действующим магазином.`,
+      more: 'Подробнее',
+      modalTag: `Концепт · ${devLink}`,
+      title: 'Это концепция, а не рабочий магазин',
+      lead: `Сайт EURASIA — дизайн-концепция, которую разработал <strong>${devLink}</strong> для своего портфолио. Он создан, чтобы наглядно показать, как выглядит и работает интернет-магазин.`,
+      list: [
+        'Товары, цены и акции — демонстрационные.',
+        'Корзина и оформление заказа работают только для примера: заказы никуда не отправляются.',
+        'Контакты, реквизиты и юридические документы вымышлены.'
+      ],
+      cta: 'Понравился именно этот дизайн? Мы можем адаптировать его под вашу нишу и задачи.',
+      ok: 'Смотреть концепт',
+      close: 'Закрыть',
+      switchLabel: 'Язык',
+      footer: `Концепт-дизайн ${devLink}, 2026. Не является действующим магазином.`
+    },
+    en: {
+      lang: 'en',
+      tag: 'Concept',
+      bar: `Design concept by ${devLink}. This is not a working store.`,
+      more: 'Details',
+      modalTag: `Concept · ${devLink}`,
+      title: 'This is a concept, not a working store',
+      lead: `EURASIA is a design concept created by <strong>${devLink}</strong> for its portfolio. It shows how an online store looks and works.`,
+      list: [
+        'Products, prices and offers are demo content.',
+        'The cart and checkout are for demonstration only: no orders are sent anywhere.',
+        'Contacts, company details and legal documents are fictional.'
+      ],
+      cta: 'Like this particular design? We can adapt it to your niche and goals.',
+      ok: 'View the concept',
+      close: 'Close',
+      switchLabel: 'Language',
+      footer: `Design concept by ${devLink}, 2026. Not a working store.`
+    }
+  };
+
+  function conceptLang() {
+    try {
+      const saved = localStorage.getItem('eurasia-concept-lang');
+      if (saved === 'ru' || saved === 'en') return saved;
+    } catch (e) { /* ignore */ }
+    return (navigator.language || 'ru').toLowerCase().startsWith('ru') ? 'ru' : 'en';
+  }
+
+  const langSwitch = (cls) => `
+    <div class="lang-switch ${cls}" role="group">
+      <button type="button" data-lang="ru">RU</button>
+      <button type="button" data-lang="en">EN</button>
+    </div>`;
 
   function mountConcept() {
     const bar = document.createElement('div');
     bar.className = 'concept-bar';
     bar.innerHTML = `
-      <p><span class="concept-bar__tag">Концепт</span><span class="concept-bar__text">Дизайн-концепция ${devLink}. Сайт не является действующим магазином.</span></p>
-      <button class="concept-bar__more" type="button" data-open="concept">Подробнее</button>`;
+      <p><span class="concept-bar__tag" data-c="tag"></span><span class="concept-bar__text" data-c="bar"></span></p>
+      <span class="concept-bar__actions">
+        <button class="concept-bar__more" type="button" data-open="concept" data-c="more"></button>
+        ${langSwitch('lang-switch--bar')}
+      </span>`;
     document.body.prepend(bar);
 
     const overlay = document.createElement('div');
     overlay.className = 'overlay modal-overlay';
     overlay.innerHTML = `
       <div class="modal modal--concept" role="dialog" aria-modal="true" aria-labelledby="concept-title">
-        <button class="close-btn modal__close" type="button" data-close="concept" aria-label="Закрыть"><img src="${ICON}close-dark2.svg" alt=""></button>
-        <p class="label concept__tag">Концепт · ${devLink}</p>
-        <h2 class="h2 modal__title" id="concept-title">Это концепция, а не рабочий магазин</h2>
-        <p class="modal__text">Сайт EURASIA — дизайн-концепция, которую разработал <strong>${devLink}</strong> для своего портфолио. Он создан, чтобы наглядно показать, как выглядит и работает интернет-магазин.</p>
-        <ul class="concept__list">
-          <li>Товары, цены и акции — демонстрационные.</li>
-          <li>Корзина и оформление заказа работают только для примера: заказы никуда не отправляются.</li>
-          <li>Контакты, реквизиты и юридические документы вымышлены.</li>
-        </ul>
-        <p class="modal__text concept__cta">Понравился именно этот дизайн? Мы можем адаптировать его под вашу нишу и задачи.</p>
-        <div class="concept__actions">
-          <button class="btn" type="button" data-close="concept">Смотреть концепт</button>
-          ${CONCEPT_CONTACT ? `<a class="btn btn--ghost" href="${CONCEPT_CONTACT.href}" target="_blank" rel="noopener">${esc(CONCEPT_CONTACT.label)}</a>` : ''}
+        <div class="concept__top">
+          ${langSwitch('lang-switch--modal')}
+          <button class="close-btn" type="button" data-close="concept"><img src="${ICON}close-dark2.svg" alt=""></button>
         </div>
-        <p class="concept__en">Design concept by ${devLink}, made for a portfolio. Not a working store: products are demo content and no orders are processed. Like this design? We can adapt it to your niche.</p>
+        <p class="label concept__tag" data-c="modalTag"></p>
+        <h2 class="h2 modal__title" id="concept-title" data-c="title"></h2>
+        <p class="modal__text" data-c="lead"></p>
+        <ul class="concept__list" data-c="list"></ul>
+        <p class="modal__text concept__cta" data-c="cta"></p>
+        <div class="concept__actions">
+          <button class="btn" type="button" data-close="concept" data-c="ok"></button>
+          ${CONCEPT_CONTACT ? '<a class="btn btn--ghost" data-c="contact" target="_blank" rel="noopener"></a>' : ''}
+        </div>
       </div>`;
     document.body.append(overlay);
     overlay.addEventListener('click', (e) => { if (e.target === overlay) closeLayer('concept'); });
     layers.concept = { overlay, panel: null };
+
+    function setLang(code, persist) {
+      const t = CONCEPT_TEXT[code];
+      document.querySelectorAll('[data-c]').forEach((el) => {
+        const key = el.dataset.c;
+        if (key === 'list') el.innerHTML = t.list.map((li) => `<li>${li}</li>`).join('');
+        else if (key === 'contact') { el.textContent = CONCEPT_CONTACT[code]; el.href = CONCEPT_CONTACT.href; }
+        else el.innerHTML = t[key];
+      });
+      const footerNote = $('[data-c-footer]');
+      if (footerNote) footerNote.innerHTML = t.footer;
+      $('.modal--concept', overlay).lang = t.lang;
+      $('.modal--concept .close-btn', overlay).setAttribute('aria-label', t.close);
+      $$('.lang-switch').forEach((sw) => {
+        sw.setAttribute('aria-label', t.switchLabel);
+        $$('button', sw).forEach((b) => {
+          const on = b.dataset.lang === code;
+          b.classList.toggle('is-active', on);
+          b.setAttribute('aria-pressed', String(on));
+        });
+      });
+      if (persist) { try { localStorage.setItem('eurasia-concept-lang', code); } catch (e) { /* ignore */ } }
+    }
+
+    document.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-lang]');
+      if (b) setLang(b.dataset.lang, true);
+    });
+    setLang(conceptLang(), false);
 
     let seen = false;
     try { seen = sessionStorage.getItem('eurasia-concept-seen') === '1'; } catch (e) { /* ignore */ }
