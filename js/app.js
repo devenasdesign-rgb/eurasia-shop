@@ -1,15 +1,17 @@
 (function () {
   'use strict';
 
+  const I = window.I18N;
+  const T = I.t;
+  const plural = I.tn;
+  const { money, unit } = I;
   const D = window.EURASIA_DATA;
   const ICON = 'assets/icons/';
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
-  const money = (n) => '$' + Math.round(n);
   const minus = (n) => (Math.round(n) ? '−' + money(n) : money(0));
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
-  const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
   const params = new URLSearchParams(location.search);
   const page = document.body.dataset.page;
 
@@ -98,7 +100,7 @@
   function addToCart(id, vol, qty) {
     Cart.add(id, vol, qty);
     const p = D.product(id);
-    notify(`${cap(p.name)} added to cart`, page === 'cart' ? null : { href: 'cart.html', label: 'View cart' });
+    notify(T('{name} added to cart', { name: cap(p.name) }), page === 'cart' ? null : { href: 'cart.html', label: T('View cart') });
   }
 
   /* ---------------- Shared markup ---------------- */
@@ -109,14 +111,14 @@
     <div class="socials">
       <a href="https://t.me/" target="_blank" rel="noopener" aria-label="Telegram"><img src="${ICON}telegram${dark ? '-dark' : ''}.svg" alt=""></a>
       <a href="https://vk.com/" target="_blank" rel="noopener" aria-label="VK"><img src="${ICON}${dark ? 'vk-dark' : 'vk2'}.svg" alt=""></a>
-      <a href="mailto:info@eurasia.ru" aria-label="Email"><img src="${ICON}${dark ? 'gmail-dark' : 'gmail2'}.svg" alt=""></a>
+      <a href="mailto:info@eurasia.ru" aria-label="${T('Email')}"><img src="${ICON}${dark ? 'gmail-dark' : 'gmail2'}.svg" alt=""></a>
       <a href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><img src="${ICON}instagram-full${dark ? '-dark' : ''}.svg" alt=""><span class="star">*</span></a>
     </div>`;
 
   const searchForm = (light) => `
     <form class="search" action="catalog.html" role="search">
-      <input type="search" name="q" placeholder="Search products" aria-label="Search products" value="${esc(params.get('q') || '')}">
-      <button type="submit" aria-label="Search"><img src="${ICON}${light ? 'search-white' : 'search'}.svg" alt=""></button>
+      <input type="search" name="q" placeholder="${T('Search products')}" aria-label="${T('Search products')}" value="${esc(params.get('q') || '')}">
+      <button type="submit" aria-label="${T('Search')}"><img src="${ICON}${light ? 'search-white' : 'search'}.svg" alt=""></button>
     </form>`;
 
   function renderHeader() {
@@ -132,19 +134,19 @@
     el.innerHTML = `
       <div class="container header">
         <div class="header__left">
-          <button class="header__burger" type="button" data-open="menu" aria-label="Open menu"><img src="${ICON}burger.svg" alt=""></button>
-          <nav class="header__nav" aria-label="Main">
-            ${nav.map(([href, text, key]) => `<a href="${href}" ${key && (page === key || (key === 'brands' && page === 'brand')) ? 'aria-current="page"' : ''}>${text}</a>`).join('')}
+          <button class="header__burger" type="button" data-open="menu" aria-label="${T('Open menu')}"><img src="${ICON}burger.svg" alt=""></button>
+          <nav class="header__nav" aria-label="${T('Main')}">
+            ${nav.map(([href, text, key]) => `<a href="${href}" ${key && (page === key || (key === 'brands' && page === 'brand')) ? 'aria-current="page"' : ''}>${T(text)}</a>`).join('')}
           </nav>
         </div>
-        <a class="header__logo" href="index.html" aria-label="EURASIA — home"><img src="${ICON}logo-eurasia-wordmark.svg" alt="EURASIA"></a>
+        <a class="header__logo" href="index.html" aria-label="${T('EURASIA — home')}"><img src="${ICON}logo-eurasia-wordmark.svg" alt="EURASIA"></a>
         <div class="header__right">
           ${searchForm(false)}
-          <button class="icon-btn header__search-toggle" type="button" aria-label="Search" data-toggle-search><img src="${ICON}search.svg" alt="" style="width:20px;height:20px"></button>
-          <button class="icon-btn" type="button" data-open="fav" aria-label="Favorites">
+          <button class="icon-btn header__search-toggle" type="button" aria-label="${T('Search')}" data-toggle-search><img src="${ICON}search.svg" alt="" style="width:20px;height:20px"></button>
+          <button class="icon-btn" type="button" data-open="fav" aria-label="${T('Favorites')}">
             <img src="${ICON}heart-green.svg" alt=""><span class="icon-btn__badge" data-count="fav" hidden></span>
           </button>
-          <a class="icon-btn" href="cart.html" aria-label="Cart">
+          <a class="icon-btn" href="cart.html" aria-label="${T('Cart')}">
             <img src="${ICON}cart-green.svg" alt=""><span class="icon-btn__badge" data-count="cart" hidden></span>
           </a>
         </div>
@@ -169,37 +171,38 @@
       <div class="container">
         <div class="footer__top">
           <div class="footer__col footer__col--contacts">
-            <p class="label">Contacts</p>
+            <p class="label">${T('Contacts')}</p>
             <a class="footer__contact" href="tel:+73525205252"><img src="${ICON}phone.svg" alt="">+7 352 520 52 52</a>
-            <p class="footer__contact"><img src="${ICON}location.svg" alt="">33 Kuznetsova St., Office 129<br>St Petersburg</p>
+            <p class="footer__contact"><img src="${ICON}location.svg" alt="">${T('33 Kuznetsova St., Office 129')}<br>${T('St Petersburg')}</p>
           </div>
-          <nav class="footer__col" aria-label="Footer">
-            <p class="label">Shop</p>
-            <a href="catalog.html">Catalog</a>
-            <a href="index.html#offers">Offers</a>
-            <a href="index.html#about">About us</a>
-            <a href="checkout.html">Delivery &amp; payment</a>
-            <a href="mailto:info@eurasia.ru">Partnerships</a>
+          <nav class="footer__col" aria-label="${T('Footer')}">
+            <p class="label">${T('Shop')}</p>
+            <a href="catalog.html">${T('Catalog')}</a>
+            <a href="index.html#offers">${T('Offers')}</a>
+            <a href="index.html#about">${T('About us')}</a>
+            <a href="checkout.html">${esc(T('Delivery & payment'))}</a>
+            <a href="mailto:info@eurasia.ru">${T('Partnerships')}</a>
           </nav>
           <div class="footer__col">
-            <p class="label">Brands</p>
+            <p class="label">${T('Brands')}</p>
             ${['skinclinic', 'tallassoria', 'derma', 'montibello'].map((id) => `<a href="brand.html?id=${id}">${D.brand(id).name}</a>`).join('')}
           </div>
           <div class="footer__col footer__side">
-            <p class="label">Search the catalog</p>
+            <p class="label">${T('Search the catalog')}</p>
             ${searchForm(true)}
-            <p class="label" style="margin-top:18px">Follow us</p>
+            <p class="label" style="margin-top:18px">${T('Follow us')}</p>
             ${socials(false)}
-            <p class="footer__note">*Meta is prohibited in the Russian Federation</p>
+            <p class="footer__note">${T('*Meta is prohibited in the Russian Federation')}</p>
           </div>
         </div>
         <img class="footer__logo" src="${ICON}logo-eurasia-light.svg" alt="EURASIA — магазин профессиональной косметики" loading="lazy">
         <div class="footer__bottom">
           <div class="footer__legal">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Consent to Data Processing</a>
-            <a href="#">Public Offer Agreement</a>
+            <a href="#">${T('Privacy Policy')}</a>
+            <a href="#">${T('Consent to Data Processing')}</a>
+            <a href="#">${T('Public Offer Agreement')}</a>
           </div>
+          ${langSwitch('lang-switch--bar')}
           <p data-c-footer></p>
         </div>
       </div>`;
@@ -245,36 +248,37 @@
   }
 
   function mountMenu() {
-    const { panel } = mountLayer('menu', 'menu', 'Menu');
+    const { panel } = mountLayer('menu', 'menu', T('Menu'));
     panel.innerHTML = `
       <div class="drawer__head">
         <a class="menu__logo" href="index.html"><img src="${ICON}logo-eurasia.svg" alt="EURASIA — магазин профессиональной косметики"></a>
-        <button class="close-btn" type="button" data-close="menu" aria-label="Close menu"><img src="${ICON}close-plus.svg" alt=""></button>
+        <button class="close-btn" type="button" data-close="menu" aria-label="${T('Close menu')}"><img src="${ICON}close-plus.svg" alt=""></button>
       </div>
       <nav class="drawer__body">
         <div class="menu__item">
-          <button class="menu__toggle" type="button" aria-expanded="false">Catalog <img src="${ICON}caret-menu.svg" alt=""></button>
+          <button class="menu__toggle" type="button" aria-expanded="false">${T('Catalog')} <img src="${ICON}caret-menu.svg" alt=""></button>
           <div class="menu__sub">
-            <a href="catalog.html">All products</a>
+            <a href="catalog.html">${T('All products')}</a>
             ${D.categories.map((c) => `<a href="catalog.html?cat=${c.id}">${c.name}</a>`).join('')}
           </div>
         </div>
         <div class="menu__item">
-          <button class="menu__toggle" type="button" aria-expanded="false">Brands <img src="${ICON}caret-menu.svg" alt=""></button>
+          <button class="menu__toggle" type="button" aria-expanded="false">${T('Brands')} <img src="${ICON}caret-menu.svg" alt=""></button>
           <div class="menu__sub">
-            <a href="brands.html">All brands</a>
+            <a href="brands.html">${T('All brands')}</a>
             ${D.brands.map((b) => `<a href="brand.html?id=${b.id}">${b.name}</a>`).join('')}
           </div>
         </div>
-        <div class="menu__item"><a class="menu__link" href="index.html#offers">Offers</a></div>
-        <div class="menu__item"><a class="menu__link" href="index.html#about">About us</a></div>
-        <div class="menu__item"><a class="menu__link" href="mailto:info@eurasia.ru">For professionals</a></div>
-        <div class="menu__item"><a class="menu__link" href="checkout.html">Delivery &amp; payment</a></div>
-        <div class="menu__item"><a class="menu__link" href="#site-footer" data-close="menu">Contacts</a></div>
+        <div class="menu__item"><a class="menu__link" href="index.html#offers">${T('Offers')}</a></div>
+        <div class="menu__item"><a class="menu__link" href="index.html#about">${T('About us')}</a></div>
+        <div class="menu__item"><a class="menu__link" href="mailto:info@eurasia.ru">${T('For professionals')}</a></div>
+        <div class="menu__item"><a class="menu__link" href="checkout.html">${esc(T('Delivery & payment'))}</a></div>
+        <div class="menu__item"><a class="menu__link" href="#site-footer" data-close="menu">${T('Contacts')}</a></div>
       </nav>
       <div class="drawer__foot">
         ${socials(true)}
-        <p class="footer__note">*Meta is prohibited in the Russian Federation</p>
+        ${langSwitch('lang-switch--menu')}
+        <p class="footer__note">${T('*Meta is prohibited in the Russian Federation')}</p>
       </div>`;
 
     $$('.menu__toggle', panel).forEach((btn) => btn.addEventListener('click', () => {
@@ -285,15 +289,15 @@
   }
 
   function mountFavorites() {
-    const layer = mountLayer('fav', 'fav', 'Favorites');
+    const layer = mountLayer('fav', 'fav', T('Favorites'));
     const { panel } = layer;
 
     layer.render = function () {
       const ids = Fav.ids();
       panel.innerHTML = `
         <div class="drawer__head">
-          <h2 class="drawer__title">Favorites<span class="drawer__count">${ids.length}</span></h2>
-          <button class="close-btn" type="button" data-close="fav" aria-label="Close favorites"><img src="${ICON}close-dark.svg" alt=""></button>
+          <h2 class="drawer__title">${T('Favorites')}<span class="drawer__count">${ids.length}</span></h2>
+          <button class="close-btn" type="button" data-close="fav" aria-label="${T('Close favorites')}"><img src="${ICON}close-dark.svg" alt=""></button>
         </div>
         <div class="drawer__body">
           ${ids.length ? ids.map((id) => {
@@ -308,19 +312,19 @@
               </div>
               <div class="line__side">
                 <div class="line__actions">
-                  <button type="button" data-fav-remove="${p.id}" aria-label="Remove from favorites"><img src="${ICON}trash-2.svg" alt=""></button>
+                  <button type="button" data-fav-remove="${p.id}" aria-label="${T('Remove from favorites')}"><img src="${ICON}trash-2.svg" alt=""></button>
                 </div>
-                <button class="card__add" type="button" data-add="${p.id}" aria-label="Add to cart"><img src="${ICON}cart-white.svg" alt=""></button>
+                <button class="card__add" type="button" data-add="${p.id}" aria-label="${T('Add to cart')}"><img src="${ICON}cart-white.svg" alt=""></button>
               </div>
             </article>`;
           }).join('') : `
           <div class="empty">
-            <p class="empty__title">No favorites yet</p>
-            <p>Tap the heart on any product to save it here.</p>
-            <a class="btn" href="catalog.html">Browse catalog</a>
+            <p class="empty__title">${T('No favorites yet')}</p>
+            <p>${T('Tap the heart on any product to save it here.')}</p>
+            <a class="btn" href="catalog.html">${T('Browse catalog')}</a>
           </div>`}
         </div>
-        ${ids.length ? `<div class="drawer__foot"><button class="btn btn--block" type="button" data-fav-all-cart>Add all to cart</button></div>` : ''}`;
+        ${ids.length ? `<div class="drawer__foot"><button class="btn btn--block" type="button" data-fav-all-cart>${T('Add all to cart')}</button></div>` : ''}`;
     };
 
     panel.addEventListener('click', (e) => {
@@ -330,7 +334,7 @@
       if ('favAllCart' in t.dataset) {
         const ids = Fav.ids();
         ids.forEach((id) => Cart.add(id));
-        notify(`${plural(ids.length, 'item', 'items')} added to cart`, { href: 'cart.html', label: 'View cart' });
+        notify(T('{items} added to cart', { items: plural(ids.length, 'item', 'items') }), { href: 'cart.html', label: T('View cart') });
       }
     });
     document.addEventListener('store:change', () => { if (panel.classList.contains('is-open')) layer.render(); });
@@ -341,12 +345,12 @@
     overlay.className = 'overlay modal-overlay';
     overlay.innerHTML = `
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="thanks-title">
-        <button class="close-btn modal__close" type="button" data-close="thanks" aria-label="Close"><img src="${ICON}close-dark2.svg" alt=""></button>
+        <button class="close-btn modal__close" type="button" data-close="thanks" aria-label="${T('Close')}"><img src="${ICON}close-dark2.svg" alt=""></button>
         <img class="modal__logo" src="${ICON}logo-eurasia.svg" alt="EURASIA — магазин профессиональной косметики">
         <span class="modal__mark" aria-hidden="true"></span>
-        <h2 class="h2 modal__title" id="thanks-title">Thank you!</h2>
-        <p class="modal__text">Your order has been placed. Our specialist will contact you within 15 minutes to arrange delivery.</p>
-        <a class="btn" href="catalog.html">Browse catalog</a>
+        <h2 class="h2 modal__title" id="thanks-title">${T('Thank you!')}</h2>
+        <p class="modal__text">${T('Your order has been placed. Our specialist will contact you within 15 minutes to arrange delivery.')}</p>
+        <a class="btn" href="catalog.html">${T('Browse catalog')}</a>
       </div>`;
     document.body.append(overlay);
     overlay.addEventListener('click', (e) => { if (e.target === overlay) closeLayer('thanks'); });
@@ -402,27 +406,21 @@
     }
   };
 
-  function conceptLang() {
-    try {
-      const saved = localStorage.getItem('eurasia-concept-lang');
-      if (saved === 'ru' || saved === 'en') return saved;
-    } catch (e) { /* ignore */ }
-    return (navigator.language || 'ru').toLowerCase().startsWith('ru') ? 'ru' : 'en';
-  }
-
   const langSwitch = (cls) => `
-    <div class="lang-switch ${cls}" role="group">
-      <button type="button" data-lang="ru">RU</button>
-      <button type="button" data-lang="en">EN</button>
+    <div class="lang-switch ${cls}" role="group" aria-label="${esc(T('Language'))}">
+      <button type="button" data-lang="ru" class="${I.lang === 'ru' ? 'is-active' : ''}" aria-pressed="${I.lang === 'ru'}">RU</button>
+      <button type="button" data-lang="en" class="${I.lang === 'en' ? 'is-active' : ''}" aria-pressed="${I.lang === 'en'}">EN</button>
     </div>`;
 
   function mountConcept() {
+    const c = CONCEPT_TEXT[I.lang];
+
     const bar = document.createElement('div');
     bar.className = 'concept-bar';
     bar.innerHTML = `
-      <p><span class="concept-bar__tag" data-c="tag"></span><span class="concept-bar__text" data-c="bar"></span></p>
+      <p><span class="concept-bar__tag">${c.tag}</span><span class="concept-bar__text">${c.bar}</span></p>
       <span class="concept-bar__actions">
-        <button class="concept-bar__more" type="button" data-open="concept" data-c="more"></button>
+        <button class="concept-bar__more" type="button" data-open="concept">${c.more}</button>
         ${langSwitch('lang-switch--bar')}
       </span>`;
     document.body.prepend(bar);
@@ -433,54 +431,44 @@
       <div class="modal modal--concept" role="dialog" aria-modal="true" aria-labelledby="concept-title">
         <div class="concept__top">
           ${langSwitch('lang-switch--modal')}
-          <button class="close-btn" type="button" data-close="concept"><img src="${ICON}close-dark2.svg" alt=""></button>
+          <button class="close-btn" type="button" data-close="concept" aria-label="${c.close}"><img src="${ICON}close-dark2.svg" alt=""></button>
         </div>
-        <p class="label concept__tag" data-c="modalTag"></p>
-        <h2 class="h2 modal__title" id="concept-title" data-c="title"></h2>
-        <p class="modal__text" data-c="lead"></p>
-        <ul class="concept__list" data-c="list"></ul>
-        <p class="modal__text concept__cta" data-c="cta"></p>
+        <p class="label concept__tag">${c.modalTag}</p>
+        <h2 class="h2 modal__title" id="concept-title">${c.title}</h2>
+        <p class="modal__text">${c.lead}</p>
+        <ul class="concept__list">${c.list.map((li) => `<li>${li}</li>`).join('')}</ul>
+        <p class="modal__text concept__cta">${c.cta}</p>
         <div class="concept__actions">
-          <button class="btn" type="button" data-close="concept" data-c="ok"></button>
-          ${CONCEPT_CONTACT ? '<a class="btn btn--ghost" data-c="contact" target="_blank" rel="noopener"></a>' : ''}
+          <button class="btn" type="button" data-close="concept">${c.ok}</button>
+          ${CONCEPT_CONTACT ? `<a class="btn btn--ghost" href="${CONCEPT_CONTACT.href}" target="_blank" rel="noopener">${esc(CONCEPT_CONTACT[I.lang])}</a>` : ''}
         </div>
       </div>`;
     document.body.append(overlay);
     overlay.addEventListener('click', (e) => { if (e.target === overlay) closeLayer('concept'); });
     layers.concept = { overlay, panel: null };
 
-    function setLang(code, persist) {
-      const t = CONCEPT_TEXT[code];
-      document.querySelectorAll('[data-c]').forEach((el) => {
-        const key = el.dataset.c;
-        if (key === 'list') el.innerHTML = t.list.map((li) => `<li>${li}</li>`).join('');
-        else if (key === 'contact') { el.textContent = CONCEPT_CONTACT[code]; el.href = CONCEPT_CONTACT.href; }
-        else el.innerHTML = t[key];
-      });
-      const footerNote = $('[data-c-footer]');
-      if (footerNote) footerNote.innerHTML = t.footer;
-      $('.modal--concept', overlay).lang = t.lang;
-      $('.modal--concept .close-btn', overlay).setAttribute('aria-label', t.close);
-      $$('.lang-switch').forEach((sw) => {
-        sw.setAttribute('aria-label', t.switchLabel);
-        $$('button', sw).forEach((b) => {
-          const on = b.dataset.lang === code;
-          b.classList.toggle('is-active', on);
-          b.setAttribute('aria-pressed', String(on));
-        });
-      });
-      if (persist) { try { localStorage.setItem('eurasia-concept-lang', code); } catch (e) { /* ignore */ } }
-    }
+    const footerNote = $('[data-c-footer]');
+    if (footerNote) footerNote.innerHTML = c.footer;
 
+    // Switching language reloads the page: reopen the dialog afterwards if it was open.
     document.addEventListener('click', (e) => {
       const b = e.target.closest('[data-lang]');
-      if (b) setLang(b.dataset.lang, true);
+      if (!b || b.dataset.lang === I.lang) return;
+      try {
+        if (overlay.classList.contains('is-open')) sessionStorage.setItem('eurasia-concept-reopen', '1');
+      } catch (err) { /* ignore */ }
+      I.setLang(b.dataset.lang);
     });
-    setLang(conceptLang(), false);
 
     let seen = false;
-    try { seen = sessionStorage.getItem('eurasia-concept-seen') === '1'; } catch (e) { /* ignore */ }
-    if (!seen) {
+    let reopen = false;
+    try {
+      seen = sessionStorage.getItem('eurasia-concept-seen') === '1';
+      reopen = sessionStorage.getItem('eurasia-concept-reopen') === '1';
+      sessionStorage.removeItem('eurasia-concept-reopen');
+    } catch (e) { /* ignore */ }
+    if (reopen) openLayer('concept');
+    else if (!seen) {
       setTimeout(() => openLayer('concept'), 350);
       try { sessionStorage.setItem('eurasia-concept-seen', '1'); } catch (e) { /* ignore */ }
     }
@@ -498,7 +486,7 @@
     if (fav) {
       e.preventDefault();
       const added = Fav.toggle(fav.dataset.favToggle);
-      notify(added ? 'Saved to favorites' : 'Removed from favorites');
+      notify(added ? T('Saved to favorites') : T('Removed from favorites'));
     }
 
     const add = e.target.closest('[data-add]');
@@ -543,26 +531,26 @@
     </p>`;
 
   const favButton = (p, cls) => `
-    <button class="${cls} fav-toggle" type="button" data-fav-toggle="${p.id}" aria-label="Save ${esc(p.name)} to favorites" aria-pressed="false">
+    <button class="${cls} fav-toggle" type="button" data-fav-toggle="${p.id}" aria-label="${esc(T('Save {name} to favorites', { name: p.name }))}" aria-pressed="false">
       <img class="off" src="${ICON}heart-outline.svg" alt=""><img class="on" src="${ICON}heart-filled.svg" alt="">
     </button>`;
 
   function card(p) {
     const href = `product.html?id=${p.id}`;
-    const badge = p.badge === 'new' ? '<span class="badge badge--new">New</span>'
+    const badge = p.badge === 'new' ? `<span class="badge badge--new">${T('New')}</span>`
       : p.old ? `<span class="badge badge--sale">−${Math.round((1 - p.price / p.old) * 100)}%</span>` : '';
     return `
       <article class="card">
         <a class="card__media" href="${href}" tabindex="-1" aria-hidden="true">${imgTag(p.img, p.name, p.crop)}${badge}</a>
         ${favButton(p, 'card__fav')}
         <div class="card__body">
-          <p class="label">${brandLabel(p.brand)} · ${esc(p.volumes[0])}</p>
+          <p class="label">${brandLabel(p.brand)} · ${esc(unit(p.volumes[0]))}</p>
           <h3 class="card__title"><a href="${href}">${esc(cap(p.name))}</a></h3>
           <p class="card__sub">${esc(cap(p.sub))}</p>
         </div>
         <div class="card__foot">
           ${priceTag(p)}
-          <button class="card__add" type="button" data-add="${p.id}" aria-label="Add ${esc(p.name)} to cart"><img src="${ICON}cart-white.svg" alt=""></button>
+          <button class="card__add" type="button" data-add="${p.id}" aria-label="${esc(T('Add {name} to cart', { name: p.name }))}"><img src="${ICON}cart-white.svg" alt=""></button>
         </div>
       </article>`;
   }
@@ -578,20 +566,20 @@
       <article class="line ${dark ? 'line--dark' : ''}">
         <a class="line__img" href="${href}"><img src="${p.img}" alt="${esc(p.name)}"></a>
         <div class="line__info">
-          <p class="label">${brandLabel(p.brand)} · ${esc(item.vol)}</p>
+          <p class="label">${brandLabel(p.brand)} · ${esc(unit(item.vol))}</p>
           <h3 class="line__title"><a href="${href}">${esc(cap(p.name))}</a></h3>
           <div class="qty">
-            <button type="button" data-qty="${index}" data-delta="-1" aria-label="Decrease quantity" ${item.qty <= 1 ? 'disabled' : ''}><img src="${ICON}minus.svg" alt=""></button>
+            <button type="button" data-qty="${index}" data-delta="-1" aria-label="${T('Decrease quantity')}" ${item.qty <= 1 ? 'disabled' : ''}><img src="${ICON}minus.svg" alt=""></button>
             <output aria-live="polite">${item.qty}</output>
-            <button type="button" data-qty="${index}" data-delta="1" aria-label="Increase quantity"><img src="${ICON}add.svg" alt=""></button>
+            <button type="button" data-qty="${index}" data-delta="1" aria-label="${T('Increase quantity')}"><img src="${ICON}add.svg" alt=""></button>
           </div>
         </div>
         <div class="line__side">
           ${priceTag(p, item.qty)}
           <div class="line__actions">
             ${dark ? '' : favButton(p, '')}
-            <button type="button" data-remove="${index}" aria-label="Remove from cart"><img src="${ICON}trash.svg" alt=""></button>
-            ${dark ? '' : `<label class="check check--center"><input type="checkbox" data-select="${index}" ${item.selected ? 'checked' : ''} aria-label="Include in order"><span class="check__box"></span></label>`}
+            <button type="button" data-remove="${index}" aria-label="${T('Remove from cart')}"><img src="${ICON}trash.svg" alt=""></button>
+            ${dark ? '' : `<label class="check check--center"><input type="checkbox" data-select="${index}" ${item.selected ? 'checked' : ''} aria-label="${T('Include in order')}"><span class="check__box"></span></label>`}
           </div>
         </div>
       </article>`;
@@ -628,7 +616,7 @@
           : `<img class="brand-tile__img" src="${b.tile.src}" alt="" loading="lazy">`}
         <span class="brand-tile__foot">
           <span class="brand-tile__name">${b.name}</span>
-          <span class="link">Explore the brand</span>
+          <span class="link">${T('Explore the brand')}</span>
         </span>
       </a>`).join('');
 
@@ -638,10 +626,11 @@
         <span class="collection__body">
           <span class="label" style="color:rgba(255,255,255,.75)">${plural(D.products.filter((p) => p.collection === c.id).length, 'product', 'products')}</span>
           <span class="collection__name">${c.name}</span>
-          <span class="link">View collection</span>
+          <span class="link">${T('View collection')}</span>
         </span>
       </a>`).join('');
 
+    $$('[data-price]').forEach((el) => { const hp = D.product(el.dataset.price); if (hp) el.textContent = money(hp.price); });
   };
 
   pages.catalog = function () {
@@ -663,7 +652,7 @@
 
     const c = collection && D.collections.find((x) => x.id === collection);
     if (c) { $('#catalog-title').textContent = c.name; $('#catalog-crumb').textContent = c.name; }
-    else if (q) { $('#catalog-title').textContent = `Results for “${params.get('q')}”`; $('#catalog-crumb').textContent = 'Search'; }
+    else if (q) { $('#catalog-title').textContent = T('Results for “{q}”', { q: params.get('q') }); $('#catalog-crumb').textContent = T('Search'); }
 
     $$('.filters__head', form).forEach((h) => h.addEventListener('click', () => {
       const open = h.getAttribute('aria-expanded') !== 'true';
@@ -686,13 +675,13 @@
         (!q || (p.name + ' ' + p.sub + ' ' + D.brandName(p.brand)).toLowerCase().includes(q)));
       if (sort === 'price-asc') list = list.slice().sort((a, b) => a.price - b.price);
       if (sort === 'price-desc') list = list.slice().sort((a, b) => b.price - a.price);
-      if (sort === 'name') list = list.slice().sort((a, b) => a.name.localeCompare(b.name));
+      if (sort === 'name') list = list.slice().sort((a, b) => a.name.localeCompare(b.name, I.lang));
       grid.innerHTML = list.length
         ? list.map(card).join('')
-        : `<div class="empty catalog__empty"><p class="empty__title">No products match these filters</p><p>Remove a filter or reset them all to see more products.</p><button class="btn btn--ghost" type="button" data-reset>Reset filters</button></div>`;
+        : `<div class="empty catalog__empty"><p class="empty__title">${T('No products match these filters')}</p><p>${T('Remove a filter or reset them all to see more products.')}</p><button class="btn btn--ghost" type="button" data-reset>${T('Reset filters')}</button></div>`;
       const count = plural(list.length, 'product', 'products');
       $('#catalog-count').textContent = count;
-      $('#filters-apply').textContent = `Show ${count}`;
+      $('#filters-apply').textContent = T('Show {count}', { count });
       updateCounters();
     }
 
@@ -720,8 +709,8 @@
     document.title = `${cap(p.name)} — EURASIA`;
     const brand = D.brand(p.brand);
     const details = [];
-    if (p.action) details.push(['Action', p.action]);
-    if (p.ingredients) details.push(['Active ingredients', p.ingredients]);
+    if (p.action) details.push([T('Action'), p.action]);
+    if (p.ingredients) details.push([T('Active ingredients'), p.ingredients]);
 
     $('#product').innerHTML = `
       <div class="product__media">${imgTag(p.img, p.name, p.crop)}</div>
@@ -731,24 +720,24 @@
         <p class="product__lead">${esc(cap(p.sub))}</p>
         ${priceTag(p, 1, 'price--lg')}
         <fieldset class="product__option" style="border:0;padding:0;margin-inline:0">
-          <legend class="label">Volume</legend>
+          <legend class="label">${T('Volume')}</legend>
           <div class="chips">
-            ${p.volumes.map((v, i) => `<label class="chip"><input type="radio" name="volume" value="${esc(v)}" ${i ? '' : 'checked'}><span>${esc(v)}</span></label>`).join('')}
+            ${p.volumes.map((v, i) => `<label class="chip"><input type="radio" name="volume" value="${esc(v)}" ${i ? '' : 'checked'}><span>${esc(unit(v))}</span></label>`).join('')}
           </div>
         </fieldset>
         <div class="product__buy">
           <div class="qty qty--lg">
-            <button type="button" data-step="-1" aria-label="Decrease quantity" disabled><img src="${ICON}minus.svg" alt=""></button>
+            <button type="button" data-step="-1" aria-label="${T('Decrease quantity')}" disabled><img src="${ICON}minus.svg" alt=""></button>
             <output id="buy-qty" aria-live="polite">1</output>
-            <button type="button" data-step="1" aria-label="Increase quantity"><img src="${ICON}add.svg" alt=""></button>
+            <button type="button" data-step="1" aria-label="${T('Increase quantity')}"><img src="${ICON}add.svg" alt=""></button>
           </div>
-          <button class="btn" type="button" id="add-to-cart">Add to cart</button>
+          <button class="btn" type="button" id="add-to-cart">${T('Add to cart')}</button>
           ${favButton(p, 'product__fav')}
         </div>
         <ul class="product__facts">
-          <li><span>SKU</span><span class="label" style="color:inherit">${p.sku}</span></li>
-          <li><span>Courier delivery</span><span>Within 2 business days</span></li>
-          <li><span>Payment</span><span>On delivery or online by card</span></li>
+          <li><span>${T('SKU')}</span><span class="label" style="color:inherit">${p.sku}</span></li>
+          <li><span>${T('Courier delivery')}</span><span>${T('Within 2 business days')}</span></li>
+          <li><span>${T('Payment')}</span><span>${T('On delivery or online by card')}</span></li>
         </ul>
         ${details.length ? `
         <div class="product__details">
@@ -794,7 +783,7 @@
     ].join('');
     $('#brand-text').innerHTML = b.text.map((t) => `<p>${esc(t)}</p>`).join('');
     const list = D.products.filter((p) => p.brand === b.id);
-    $('#brand-count').textContent = list.length ? plural(list.length, 'product', 'products') : 'Recommended';
+    $('#brand-count').textContent = list.length ? plural(list.length, 'product', 'products') : T('Recommended');
     $('#brand-grid').innerHTML = (list.length ? list.slice(0, 8) : pick(['bust-gel', 'arnicor', 'hot-cold', 'body-lotion'])).map(card).join('');
     $('#brand-all').href = `catalog.html?brand=${b.id}`;
   };
@@ -808,7 +797,7 @@
           <span class="strip__name">${b.name}</span>
           <span class="strip__icon"><img src="${ICON}${b.dark ? 'plus-dark' : 'plus-w2'}.svg" alt=""></span>
         </button>
-        <div class="strip__foot"><a class="btn btn--white" href="brand.html?id=${b.id}">Explore ${b.name}</a></div>
+        <div class="strip__foot"><a class="btn btn--white" href="brand.html?id=${b.id}">${T('Explore {name}', { name: b.name })}</a></div>
       </div>`).join('');
     $$('.strip__head', root).forEach((h) => h.addEventListener('click', () => {
       const strip = h.parentElement;
@@ -823,6 +812,7 @@
     const layout = $('#cart-layout');
     const emptyEl = $('#cart-empty');
     let promo = 0;
+    try { promo = sessionStorage.getItem('evrazia-promo') === '1' ? D.settings.promo : 0; } catch (e) { /* ignore */ }
 
     function render() {
       const items = Cart.items();
@@ -834,7 +824,7 @@
       listEl.innerHTML = items.map((it, i) => lineItem(it, i)).join('');
       const t = Cart.totals();
       const rewards = Math.min(promo, t.total);
-      $('#sum-pcs').textContent = `Items (${t.pcs})`;
+      $('#sum-pcs').textContent = T('Items ({n})', { n: t.pcs });
       $('#sum-items').textContent = money(t.items);
       $('#sum-discount').textContent = minus(t.discount);
       $('#sum-rewards').textContent = minus(rewards);
@@ -849,9 +839,9 @@
       e.preventDefault();
       const code = $('#promo').value.trim().toUpperCase();
       const msg = $('#promo-msg');
-      if (code === 'EURASIA') { promo = 10; msg.textContent = 'Promo code applied: $10 off.'; }
-      else { promo = 0; msg.textContent = code ? 'This promo code doesn’t exist. Check the spelling and try again.' : ''; }
-      try { sessionStorage.setItem('evrazia-promo', String(promo)); } catch (err) { /* ignore */ }
+      if (code === 'EURASIA') { promo = D.settings.promo; msg.textContent = T('Promo code applied: {amount} off.', { amount: money(promo) }); }
+      else { promo = 0; msg.textContent = code ? T('This promo code doesn’t exist. Check the spelling and try again.') : ''; }
+      try { sessionStorage.setItem('evrazia-promo', promo ? '1' : '0'); } catch (err) { /* ignore */ }
       render();
     });
     $('#to-checkout').addEventListener('click', () => { location.href = 'checkout.html'; });
@@ -865,22 +855,22 @@
     const listEl = $('#order-items');
     const form = $('#checkout-form');
     let promo = 0;
-    try { promo = parseFloat(sessionStorage.getItem('evrazia-promo')) || 0; } catch (e) { /* ignore */ }
+    try { promo = sessionStorage.getItem('evrazia-promo') === '1' ? D.settings.promo : 0; } catch (e) { /* ignore */ }
 
-    const deliveryFee = () => (($('input[name="delivery"]:checked', form) || {}).value === 'courier' ? 6 : 0);
+    const deliveryFee = () => (($('input[name="delivery"]:checked', form) || {}).value === 'courier' ? D.settings.deliveryFee : 0);
 
     function render() {
       const items = Cart.items().map((it, i) => ({ it, i })).filter((x) => x.it.selected);
       listEl.innerHTML = items.length
         ? items.map((x) => lineItem(x.it, x.i, true)).join('')
-        : '<p class="order__empty">Your order is empty. <a class="text-link" href="catalog.html">Browse catalog</a></p>';
+        : `<p class="order__empty">${T('Your order is empty.')} <a class="text-link" href="catalog.html">${T('Browse catalog')}</a></p>`;
       const t = Cart.totals();
       const fee = t.pcs ? deliveryFee() : 0;
       const off = Math.min(promo, t.total);
-      $('#o-pcs').textContent = `Items (${t.pcs})`;
+      $('#o-pcs').textContent = T('Items ({n})', { n: t.pcs });
       $('#o-items').textContent = money(t.items);
       $('#o-discount').textContent = minus(t.discount + off);
-      $('#o-delivery').textContent = fee ? money(fee) : 'Free';
+      $('#o-delivery').textContent = fee ? money(fee) : T('Free');
       $('#o-total').textContent = money(t.total - off + fee);
     }
 
@@ -907,11 +897,11 @@
         f.classList.toggle('is-invalid', !valid);
         if (!valid) ok = false;
       });
-      if (!ok) { err.textContent = 'Fill in the highlighted fields to continue.'; $('.field.is-invalid input', form).focus(); return; }
-      if (!$('input[name="delivery"]:checked', form)) { err.textContent = 'Choose a delivery method.'; return; }
-      if (!$('input[name="payment"]:checked', form)) { err.textContent = 'Choose a payment method.'; return; }
-      if (!$('#consent').checked) { err.textContent = 'Confirm consent to the processing of personal data.'; return; }
-      if (!Cart.totals().pcs) { err.textContent = 'Your order is empty. Add products to place an order.'; return; }
+      if (!ok) { err.textContent = T('Fill in the highlighted fields to continue.'); $('.field.is-invalid input', form).focus(); return; }
+      if (!$('input[name="delivery"]:checked', form)) { err.textContent = T('Choose a delivery method.'); return; }
+      if (!$('input[name="payment"]:checked', form)) { err.textContent = T('Choose a payment method.'); return; }
+      if (!$('#consent').checked) { err.textContent = T('Confirm consent to the processing of personal data.'); return; }
+      if (!Cart.totals().pcs) { err.textContent = T('Your order is empty. Add products to place an order.'); return; }
       err.textContent = '';
       Cart.clearSelected();
       try { sessionStorage.removeItem('evrazia-promo'); } catch (er) { /* ignore */ }
@@ -932,17 +922,17 @@
     holder.innerHTML = `
       <div class="subscribe__panel">
         <div>
-          <h2 class="h2">New arrivals and offers, first</h2>
-          <p class="subscribe__lead">Subscribe to our newsletter and we’ll keep you posted on new arrivals and special offers.</p>
+          <h2 class="h2">${T('New arrivals and offers, first')}</h2>
+          <p class="subscribe__lead">${T('Subscribe to our newsletter and we’ll keep you posted on new arrivals and special offers.')}</p>
         </div>
         <form id="subscribe-form" novalidate>
           <div class="subscribe__row">
-            <input type="email" name="email" placeholder="Your email" aria-label="Email" required autocomplete="email">
-            <button class="btn" type="submit">Subscribe</button>
+            <input type="email" name="email" placeholder="${T('Your email')}" aria-label="${T('Email')}" required autocomplete="email">
+            <button class="btn" type="submit">${T('Subscribe')}</button>
           </div>
           <label class="check subscribe__consent">
             <input type="checkbox" name="consent"><span class="check__box"></span>
-            I confirm that I have read and consent to the processing of my personal data in accordance with the Privacy Policy.
+            ${T('I confirm that I have read and consent to the processing of my personal data in accordance with the Privacy Policy.')}
           </label>
           <p class="subscribe__msg" id="subscribe-msg" aria-live="polite"></p>
         </form>
@@ -954,10 +944,10 @@
       const consent = $('input[type="checkbox"]', f);
       const msg = $('#subscribe-msg');
       msg.classList.add('is-error');
-      if (!email.value || !email.checkValidity()) { msg.textContent = 'Enter a valid email address, like name@example.com.'; email.focus(); return; }
-      if (!consent.checked) { msg.textContent = 'Confirm consent to the processing of personal data.'; return; }
+      if (!email.value || !email.checkValidity()) { msg.textContent = T('Enter a valid email address, like name@example.com.'); email.focus(); return; }
+      if (!consent.checked) { msg.textContent = T('Confirm consent to the processing of personal data.'); return; }
       msg.classList.remove('is-error');
-      msg.textContent = 'You’re subscribed. Watch your inbox for new arrivals.';
+      msg.textContent = T('You’re subscribed. Watch your inbox for new arrivals.');
       f.reset();
     });
   }
@@ -976,4 +966,16 @@
   updateCounters();
 
   if (params.get('open') && layers[params.get('open')]) openLayer(params.get('open'));
+
+  // After a language switch, return to where the visitor was.
+  try {
+    const y = sessionStorage.getItem('eurasia-scroll');
+    if (y !== null) {
+      sessionStorage.removeItem('eurasia-scroll');
+      const root = document.documentElement;
+      root.style.scrollBehavior = 'auto';
+      window.scrollTo(0, +y || 0);
+      root.style.scrollBehavior = '';
+    }
+  } catch (e) { /* ignore */ }
 })();

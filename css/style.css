@@ -1310,3 +1310,10 @@ ul, dl { margin: 0; padding: 0; list-style: none; }
   .modal--concept { padding: 28px 22px; }
   .concept__actions .btn { flex: 1 1 100%; }
 }
+
+/* ---------- Language switch placement, long Russian toasts ---------- */
+.lang-switch--menu { align-self: flex-start; }
+.toast { width: max-content; max-width: min(560px, calc(100vw - 32px)); }
+@media (max-width: 767px) {
+  .toast { width: auto; max-width: none; }
+}
